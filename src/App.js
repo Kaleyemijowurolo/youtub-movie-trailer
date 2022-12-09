@@ -1,25 +1,65 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect, use } from 'react';
+import ReactPlayer from 'react-player';
+import movieTrailer from 'movie-trailer';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+//Setting up the initial states using
+// react hook 'useState"
+const [video, setVideo] = useState("");
+const [warning, setWarning] = useState(false);
+const [loading, setLoading] = useState(false);
+const [videoURL, setVideoURL] =
+	useState("https://www.youtube.com/watch?v=uzlHkac--qI");
+
+//A function to fetch the required URL
+// and storing it inside the
+// videoURL state variable
+function handleSearch() {
+
+  //prevent empty input search
+  if(video === ''){
+     setWarning(true)
+      return}
+	movieTrailer(video).then((res) => {
+    if(!res){
+      setLoading(true)
+    } else{ setLoading(false)}
+	setVideoURL(res);
+	});
+}
+
+useEffect(() => {
+  //remove warning text after 5sec
+  setTimeout(() => {
+    if(warning === true){
+      setWarning(false)
+    }
+  }, 5000);
+}, [warning])
+
+
+return (
+	<div className="App">
+		<label>
+    <h1>YouTube Movies Trailer</h1>
+		</label>
+	<div className="search-box">
+		<input type="text" onChange=
+			{(e) => { setVideo(e.target.value) }} />
+		<button onClick={()=>{handleSearch()}}>🔍</button>
+	</div>
+  {warning && <span>Enter movie title!</span>}
+
+  {loading === true ? <p>loading...</p> : 
+	<ReactPlayer url={videoURL} controls={true} playing={true} pip={true} stopOnUnmount={false}/>
+  }
+  <div>
+    <br />
+  </div>
+	</div>
+);
 }
 
 export default App;
