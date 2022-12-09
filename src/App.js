@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import movieTrailer from 'movie-trailer';
 
