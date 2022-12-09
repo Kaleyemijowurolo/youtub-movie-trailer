@@ -53,7 +53,10 @@ return (
   {warning && <span>Enter movie title!</span>}
 
   {loading === true ? <p>loading...</p> : 
-	<ReactPlayer url={videoURL} controls={true} playing={true} pip={true} stopOnUnmount={false}/>
+  <div className='rpw'>
+{/* <ReactPlayer wrapper={'div'}></ReactPlayer> */}
+	<ReactPlayer height={'100%'} width={'100%'} url={videoURL} controls={true} playing={true} pip={true} stopOnUnmount={false}/>
+  </div>
   }
   <div>
     <br />
